@@ -1,6 +1,12 @@
 Obervaciones a casos de uso y requerimientos funcionales
 ----------------------------------------------------------
 - tienen bien claro lo que es funciona y no funcional, pero falta detallar, por ahora se ven como requerimientos funcionales de usuario pero necesitan mas detalle para ser requerimientos funcionales de sistema
-- los casos de uso estan bien, y tambien la descripci�n
+- los casos de uso estan bien, y tambien la descripción
 - en general todo bien, pero falta detalle.
 SIGAN ADELANTE!!
+
+OBSERVACIONES SEGUNDO AVANCE
+-----------------------------
+- Falta hacer merge de los pull-request que te he enviado
+- esta bien el codigo como para probar, pero faltan mas commits, deben ser mas regulares
+- lo que vas a presentar el dia señalado debe estar en la rama master
