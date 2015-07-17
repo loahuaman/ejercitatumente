@@ -1,7 +1,7 @@
 Obervaciones a casos de uso y requerimientos funcionales
 ----------------------------------------------------------
 - tienen bien claro lo que es funciona y no funcional, pero falta detallar, por ahora se ven como requerimientos funcionales de usuario pero necesitan mas detalle para ser requerimientos funcionales de sistema
-- los casos de uso estan bien, y tambien la descripciÃ³n
+- los casos de uso estan bien, y tambien la descripción
 - en general todo bien, pero falta detalle.
 SIGAN ADELANTE!!
 
@@ -11,4 +11,5 @@ OBSERVACIONES SEGUNDO AVANCE
 - esta bien el codigo como para probar, pero faltan mas commits, deben ser mas regulares
 - los casos de uso estan bien, y tambien la descripción
 - en general todo bien, pero falta detalle.
+SIGAN ADELANTE!!
 SIGAN ADELANTE!!
