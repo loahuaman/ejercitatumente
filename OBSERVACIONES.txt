@@ -1,7 +1,7 @@
 Obervaciones a casos de uso y requerimientos funcionales
 ----------------------------------------------------------
 - tienen bien claro lo que es funciona y no funcional, pero falta detallar, por ahora se ven como requerimientos funcionales de usuario pero necesitan mas detalle para ser requerimientos funcionales de sistema
-- los casos de uso estan bien, y tambien la descripciÛn
+- los casos de uso estan bien, y tambien la descripci√≥n
 - en general todo bien, pero falta detalle.
 SIGAN ADELANTE!!
 
@@ -9,7 +9,12 @@ OBSERVACIONES SEGUNDO AVANCE
 -----------------------------
 - Falta hacer merge de los pull-request que te he enviado
 - esta bien el codigo como para probar, pero faltan mas commits, deben ser mas regulares
-- los casos de uso estan bien, y tambien la descripciÛn
+- los casos de uso estan bien, y tambien la descripci√≥n
 - en general todo bien, pero falta detalle.
 SIGAN ADELANTE!!
 SIGAN ADELANTE!!
+
+OBSERVACIONES TERCER AVANCE
+------------------------------------
+- Tienen muchos commits, lo que est√° bien pero no olviden que cada commit se describe con un nombre significativo de lo que hace o resuelve en ese instante
+- Necesito ver mas actividad, parece que no estan avanzando
