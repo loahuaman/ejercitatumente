@@ -91,7 +91,12 @@ def load_image(filename, transparent=True):# para el fondo trasparente de la ima
 
 
 # ---------------------------------------------------------------------
-
+movimiento  = True
+posx, posy = 0, 500
+#pencere = pygame.display.set_mode((1000, 600))
+pez = pygame.Rect((posx, posy), (75, 50))
+ima_pez = pygame.image.load("pez.png")
+#---------------------------------------------------------------------------
 #funcion principal
 def main():
     pygame.init() # inicializo el modulo
@@ -170,6 +175,15 @@ def main():
     ganasteoPerdiste = False
 
     while salir!=True:
+        pantalla.blit(imagenfondo, (0, 0))
+        if movimiento:
+            pez.right += 8
+        
+        if pez.left > 800:
+            pez.right = 0
+
+        pantalla.blit(ima_pez, (pez.left, pez.top - 25))
+        
         #esperamos 3 segundos, pasado los tres segundos se ocultaran los numeros
         if(estadoJuego == 'JUGANDO' and pygame.time.get_ticks()-actualTiempo >= limiteTiempo):
             entrar = True
@@ -245,7 +259,7 @@ def main():
             if event.type == pygame.QUIT:# pygame.QUIT( para que cierre cruz de la ventana)
                 salir = True
         cursor1.update() #se actualiza el cuadro invisible que actua como boton del cursor
-        time = clock.tick(60)
+        time = clock.tick(5)
         for boton in botones:
             #llamo al update de cada boton
             boton.update(pantalla,cursor1,time)
