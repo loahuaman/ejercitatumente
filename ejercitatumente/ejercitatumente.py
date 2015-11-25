@@ -48,15 +48,9 @@ class Boton(pygame.sprite.Sprite):
             #retorno false si el indice no coincide con el numero del click
             return False
     
-    def setImageSeleccion(self, image1, image2, image3, image4, image5, image6):
-        self.imagen_seleccion.append(image1)
-        self.imagen_seleccion.append(image2)
-        self.imagen_seleccion.append(image3)
-        self.imagen_seleccion.append(image4)
-        self.imagen_seleccion.append(image5)
-        self.imagen_seleccion.append(image6)
-       
-
+    def setImageSeleccion(self,images):
+        self.imagen_seleccion= images
+     
     def setBloquer(self, valor):
         self.bloquear = valor
     
@@ -112,12 +106,10 @@ def main():
     pytime.wait(11) # 110000 Esperamos un tiempo a que acabe la cancion
     
     fondo = load_image('fondo.png')
-    bimage1 = load_image('1.png')
-    bimage2 = load_image('2.png')
-    bimage3 = load_image('3.png')
-    bimage4 = load_image('4.png')
-    bimage5 = load_image('5.png')
-    bimage6 = load_image('6.png')
+    bimages = []
+    for indice in range(6):
+        bimages.append(load_image(''+str(indice+1)+'.png'))
+        
     pantalla.blit(imagenfondo,(0,0)) #se agrega un fondo
     
     x=80 #se dan las pociciones en el eje x
@@ -143,7 +135,7 @@ def main():
     botones.append(boton6);
     #dar las imagenes a cad boton
     for boton in botones:
-        boton.setImageSeleccion(bimage1, bimage2, bimage3, bimage4, bimage5, bimage6);
+        boton.setImageSeleccion(bimages);
    
     # Aqui daremos numeros en random a los botones  
     def iniciarAleatorio():
