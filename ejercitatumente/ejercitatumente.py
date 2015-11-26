@@ -139,7 +139,7 @@ def main():
     #el nivel 0 empieza con tres conchas
     nivel=0
     cantidadConchas=3
-   
+    
     # Aqui daremos numeros en random a los botones  
     def iniciarAleatorio():
         #para los 6 botones
@@ -206,6 +206,7 @@ def main():
                 yaOculte = False
             else:
                 #pasado el tiempo  reinicio las variables
+                pantalla.blit(imagenfondo,(0,0)) #se agrega un fondo
                 iniciarAleatorio()
                 ganasteoPerdiste = False
                 actualTiempo = pygame.time.get_ticks()
@@ -245,10 +246,15 @@ def main():
                                     if buenCamino >= len(botones[:(nivel+cantidadConchas)]):
                                         estadoJuego= 'GANASTE'
                                         nivel+=1
+                                        if nivel>3:
+                                            nivel=3
                                         entrar = False
                                 else:
                                     #pierdes
                                     estadoJuego= 'PERDISTE'
+                                    nivel-=1
+                                    if nivel < 0:
+                                        nivel=0
                                     # False para no volver a detectar los eventos de los botones
                                     entrar = False
                             #salgo del ciclo for
