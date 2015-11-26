@@ -133,20 +133,24 @@ def main():
     botones.append(boton4);
     botones.append(boton5);
     botones.append(boton6);
-    #dar las imagenes a cad boton
+    #dar las imagenes a cada boton
     for boton in botones:
         boton.setImageSeleccion(bimages);
+    #el nivel 0 empieza con tres conchas
+    nivel=0
+    cantidadConchas=3
    
     # Aqui daremos numeros en random a los botones  
     def iniciarAleatorio():
         #para los 6 botones
         indices = [0,1,2,3,4,5]
+        indices = indices[:nivel+cantidadConchas]
         #metodo que desordena la lista en random
         random.shuffle(indices)
         
         #cambiamos el valor del indice
         i = 0
-        for boton in botones:
+        for boton in botones[:(nivel+cantidadConchas)]:
             # defino los indices de cada boton
             boton.setIndice(indices[i])
             i+=1
@@ -216,7 +220,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if entrar:
                     #recorremos cada boton
-                    for boton in botones:
+                    for boton in botones[:(nivel+cantidadConchas)]:
                         #verificamos si el cursor dio click en algun boton
                         if cursor1.colliderect(boton.rect):
                             #almaceno el estado del boton antes de ser presionado
@@ -232,14 +236,15 @@ def main():
                                 #si el boton no esta bloqueado procedo a contar el click
                                 click += 1
                                 # definir la cantidad de botones
-                                if click >= len(botones):
+                                if click >= len(botones[:(nivel+cantidadConchas)]):
                                     click = 0
                                 if acertaste:
                                     #vas por buen camino
                                     # contador para verificar si gane el jeugo
                                     buenCamino += 1
-                                    if buenCamino >= len(botones):
+                                    if buenCamino >= len(botones[:(nivel+cantidadConchas)]):
                                         estadoJuego= 'GANASTE'
+                                        nivel+=1
                                         entrar = False
                                 else:
                                     #pierdes
@@ -252,7 +257,7 @@ def main():
                 salir = True
         cursor1.update() #se actualiza el cuadro invisible que actua como boton del cursor
         time = clock.tick(5)
-        for boton in botones:
+        for boton in botones[:(nivel+cantidadConchas)]:
             #llamo al update de cada boton
             boton.update(pantalla,cursor1,time)
             if ocultar and not yaOculte:
