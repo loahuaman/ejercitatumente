@@ -5,68 +5,13 @@ import pygame
 from pygame.locals import * #importamos algunas constantes y funciones
 import random
 from pygame import time as pytime
-
+#importamos nuestras propias clases
+from boton import Boton
+from cursor import Cursor
+from nivel import Nivel
 # Constantes
 WIDTH = 800
 HEIGHT = 600
-
-# Clases
-
-# ---------------------------------------------------------------------
-class Cursor(pygame.Rect):
-    def __init__(self):
-        pygame.Rect.__init__(self,0,0,1,1)
-
-    def update(self):
-        self.left,self.top=pygame.mouse.get_pos()
-
-class Boton(pygame.sprite.Sprite):
-    def __init__(self,background_image,x,y):
-        pygame.sprite.Sprite.__init__(self)
-        self.imagen_normal=background_image
-        self.indice = 0
-        self.bloquear = False
-        self.imagen_seleccion = []
-        self.imagen_actual=self.imagen_normal
-        self.rect=self.imagen_actual.get_rect()
-        self.rect.left,self.rect.top=(x,y)
-
-    def setIndice(self, num):
-        self.bloquear= False #cada vez que el indice del boton es modificado desbloqueo el boton
-        self.indice = num
-        self.setNumeroImagen(self.indice)#mostramos el numero correspondiente al indice del boton
-    
-    def ocultarNumero(self):
-        self.imagen_actual = self.imagen_normal#no mostramos la imagen con numero
-            
-    def verificarIndice(self, num):
-        #si el indice
-        if self.indice == num:
-            #retorno true si el indice coincide con el numero del click
-            return True
-        else:
-            #retorno false si el indice no coincide con el numero del click
-            return False
-    
-    def setImageSeleccion(self,images):
-        self.imagen_seleccion= images
-     
-    def setBloquer(self, valor):
-        self.bloquear = valor
-    
-    def getBloquer(self):
-        return self.bloquear
-    
-    def setNumeroImagen(self, num):
-        #modifico la imagen a mostrar solo si el boton no esta bloqueado
-        if(not self.bloquear):
-            self.imagen_actual = self.imagen_seleccion[num]
-        
-    def update(self,pantalla,cursor,time):
-        pantalla.blit(self.imagen_actual,self.rect)
-
-# ---------------------------------------------------------------------
-
 
 # Funciones
 
@@ -82,14 +27,7 @@ def load_image(filename, transparent=True):# para el fondo trasparente de la ima
                 image.set_colorkey(color, RLEACCEL)
 
         return image
-
-
-# ---------------------------------------------------------------------
-movimiento  = True
-posx, posy = 0, 500
-#pencere = pygame.display.set_mode((1000, 600))
-pez = pygame.Rect((posx, posy), (75, 50))
-ima_pez = pygame.image.load("pez.png")
+    
 #---------------------------------------------------------------------------
 #funcion principal
 def main():
@@ -99,7 +37,6 @@ def main():
     pantalla=pygame.display.set_mode((WIDTH,HEIGHT))
     pygame.display.set_caption("juego ejercita tu mente") # Titulo de la Ventana
     texto=Boton(load_image('texto.png'),150,-30) #se crea un boton para "perdiste"
-    
     imagenfondo=pygame.image.load("mar.jpg").convert()
     pygame.mixer.music.load("hakuna.mid")# Cargamos la cancion
     pygame.mixer.music.play()  # Le damos al Play
@@ -136,22 +73,20 @@ def main():
     #dar las imagenes a cada boton
     for boton in botones:
         boton.setImageSeleccion(bimages);
-    #el nivel 0 empieza con tres conchas
-    nivelMinimo=0
-    cantidadConchas=3
-    nivelMaximo=3
+    
+    nivel = Nivel()
     
     # Aqui daremos numeros en random a los botones  
     def iniciarAleatorio():
         #para los 6 botones
         indices = [0,1,2,3,4,5]
-        indices = indices[:nivelMinimo+cantidadConchas]
+        indices = indices[:nivel.cantidadConchas()]
         #metodo que desordena la lista en random
         random.shuffle(indices)
         
         #cambiamos el valor del indice
         i = 0
-        for boton in botones[:(nivelMinimo+cantidadConchas)]:
+        for boton in botones[:nivel.cantidadConchas()]:
             # defino los indices de cada boton
             boton.setIndice(indices[i])
             i+=1
@@ -162,7 +97,7 @@ def main():
     salir=False
     entrar = True
     click = 0
-    limiteTiempo = 4000
+    limiteTiempo = 3000
     actualTiempo = pygame.time.get_ticks()
     ocultar = False
     yaOculte = False
@@ -172,15 +107,6 @@ def main():
     ganasteoPerdiste = False
 
     while salir!=True:
-        pantalla.blit(imagenfondo, (0, 0))
-        if movimiento:
-            pez.right += 8
-        
-        if pez.left > 800:
-            pez.right = 0
-
-        pantalla.blit(ima_pez, (pez.left, pez.top - 25))
-        
         #esperamos 3 segundos, pasado los tres segundos se ocultaran los numeros
         if(estadoJuego == 'JUGANDO' and pygame.time.get_ticks()-actualTiempo >= limiteTiempo):
             entrar = True
@@ -222,7 +148,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if entrar:
                     #recorremos cada boton
-                    for boton in botones[:(nivelMinimo+cantidadConchas)]:
+                    for boton in botones[:nivel.cantidadConchas()]:
                         #verificamos si el cursor dio click en algun boton
                         if cursor1.colliderect(boton.rect):
                             #almaceno el estado del boton antes de ser presionado
@@ -238,24 +164,21 @@ def main():
                                 #si el boton no esta bloqueado procedo a contar el click
                                 click += 1
                                 # definir la cantidad de botones
-                                if click >= len(botones[:(nivelMinimo+cantidadConchas)]):
+                                if click >= len(botones[:nivel.cantidadConchas()]):
                                     click = 0
                                 if acertaste:
                                     #vas por buen camino
                                     # contador para verificar si gane el jeugo
                                     buenCamino += 1
-                                    if buenCamino >= len(botones[:(nivelMinimo+cantidadConchas)]):
+                                    if buenCamino >= len(botones[:nivel.cantidadConchas()]):
                                         estadoJuego= 'GANASTE'
-                                        nivelMinimo+=1
-                                        if nivelMinimo>nivelMaximo:
-                                            nivelMinimo=nivelMaximo
+                                        nivel.aumentar()
                                         entrar = False
                                 else:
                                     #pierdes
                                     estadoJuego= 'PERDISTE'
-                                    nivelMinimo-=1
-                                    if nivelMinimo < nivelMinimo:
-                                        nivelMinimo=nivelMinimo
+                                    nivel.disminuir()
+                                    
                                     # False para no volver a detectar los eventos de los botones
                                     entrar = False
                             #salgo del ciclo for
@@ -263,8 +186,8 @@ def main():
             if event.type == pygame.QUIT:# pygame.QUIT( para que cierre cruz de la ventana)
                 salir = True
         cursor1.update() #se actualiza el cuadro invisible que actua como boton del cursor
-        time = clock.tick(5)
-        for boton in botones[:(nivelMinimo+cantidadConchas)]:
+        time = clock.tick(60)
+        for boton in botones[:nivel.cantidadConchas()]:
             #llamo al update de cada boton
             boton.update(pantalla,cursor1,time)
             if ocultar and not yaOculte:
